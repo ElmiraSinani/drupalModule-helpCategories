@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ */
+function services_help_categories_permission() {
+  return array(
+    "services retrieve term" => array(
+      'title' => t('Get nodes by taxonomy_term'),
+    ),
+	
+  );
+}
+
+/**
+ * Implements hook_services_resources().
+ */
+function services_help_categories_services_resources() {
+
+  return array(
+    'term' => array(
+      'retrieve' => array(
+        'title' => 'Retrieves a term',
+        'file' => array(
+          'type' => 'inc',
+          'module' => 'services_help_categories',
+          'name' => 'services_help_categories.resource'
+        ),
+        'callback' => '_services_help_categories_retrieve',
+        'access callback' => '_services_help_categories_access',
+        'access arguments' => array('view'),
+        'access arguments append' => TRUE,
+        'args' => array(
+          array(
+            'name' => 'content_type',
+            'type' => 'string',
+            'description' => 'The name of the content type to get',
+            'source' => array('path' => '0'),
+            'optional' => FALSE,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+
+function _services_help_categories_access($op = 'view', $args = array()) {
+
+	$access = FALSE;
+	
+	switch ($op) {	
+    case 'view':
+      $access = user_access("services retrieve term");
+      break;
+  }
+
+  return $access;
+}

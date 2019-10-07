@@ -1,0 +1,6 @@
+name = Help Categories
+description = Get nodes by taxonomy_term
+package = Services
+core = 7.x
+dependencies[] = services
+
